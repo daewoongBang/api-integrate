@@ -1,24 +1,27 @@
 import React, { useState } from "react";
+import {
+  useUsersState,
+  useUsersDispatch,
+  getUsers
+} from "../contexts/UsersContext";
 import axios from "axios";
 import useAsync from "./hook-custom/useAsync";
 import User from "./User";
 
-const getUsers = async () => {
-  const response = await axios.get(
-    "https://jsonplaceholder.typicode.com/users"
-  );
-  return response.data;
-};
-
 const Users = () => {
   const [userId, setUserId] = useState(null);
-  const [state, refetch] = useAsync(getUsers, [], true);
+  const state = useUsersState();
+  const dispatch = useUsersDispatch();
+  // const [state, refetch] = useAsync(getUsers, [], true);
 
-  const { loading, data: users, error } = state; // state.data를 users 키워드로 조회
+  const { data: users, loading, error } = state.users; // state.data를 users 키워드로 조회
+  const fetchData = () => {
+    getUsers(dispatch);
+  };
 
   if (loading) return <div>Loading...</div>;
   if (error) return <div>에러가 발생했습니다.</div>;
-  if (!users) return <button onClick={refetch}>불러오기</button>;
+  if (!users) return <button onClick={fetchData}>불러오기</button>;
 
   return (
     <>
@@ -33,7 +36,7 @@ const Users = () => {
           </li>
         ))}
       </ul>
-      <button onClick={refetch}>다시 불러오기</button>
+      <button onClick={fetchData}>다시 불러오기</button>
       {userId && <User id={userId} />}
     </>
   );
