@@ -4,8 +4,6 @@ import {
   useUsersDispatch,
   getUser
 } from "../contexts/UsersContext";
-import axios from "axios";
-import useAsync from "./hook-custom/useAsync";
 
 const User = ({ id }) => {
   //   const [state] = useAsync(() => getUser(id), [id]);
@@ -21,6 +19,7 @@ const User = ({ id }) => {
   if (error) return <div>에러가 발생했습니다.</div>;
   if (!user) return null;
 
+  console.log(user);
   return (
     <div>
       <h2>{user.username}</h2>

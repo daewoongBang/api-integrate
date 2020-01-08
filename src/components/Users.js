@@ -4,8 +4,6 @@ import {
   useUsersDispatch,
   getUsers
 } from "../contexts/UsersContext";
-import axios from "axios";
-import useAsync from "./hook-custom/useAsync";
 import User from "./User";
 
 const Users = () => {
@@ -14,7 +12,7 @@ const Users = () => {
   const dispatch = useUsersDispatch();
   // const [state, refetch] = useAsync(getUsers, [], true);
 
-  const { data: users, loading, error } = state.users; // state.data를 users 키워드로 조회
+  const { data: users, loading, error } = state.users;
   const fetchData = () => {
     getUsers(dispatch);
   };
